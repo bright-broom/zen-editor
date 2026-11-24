@@ -151,7 +151,7 @@ export const DEFAULT_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions
   lightbulb: { enabled: 'off' },
 
   // ホバー無効化
-  hover: { enabled: false },
+  hover: { enabled: 'off' },
 
   // スティッキースクロール無効化（タブと重複するため）
   stickyScroll: { enabled: false },

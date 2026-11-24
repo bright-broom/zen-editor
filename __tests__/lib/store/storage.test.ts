@@ -1,13 +1,12 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 
 describe('SafeStorage', () => {
-  let originalLocalStorage: Storage;
   let mockStorage: Record<string, string>;
 
   beforeEach(() => {
-    originalLocalStorage = global.localStorage;
     mockStorage = {};
-    global.localStorage = {
+    // Vitest 5 の jsdom では localStorage が読み取り専用のため、vi.stubGlobal で差し替える
+    vi.stubGlobal('localStorage', {
       getItem: vi.fn((key: string) => mockStorage[key] ?? null),
       setItem: vi.fn((key: string, value: string) => {
         mockStorage[key] = value;
@@ -20,11 +19,11 @@ describe('SafeStorage', () => {
       }),
       length: 0,
       key: vi.fn(),
-    };
+    });
   });
 
   afterEach(() => {
-    global.localStorage = originalLocalStorage;
+    vi.unstubAllGlobals();
     vi.clearAllMocks();
     vi.resetModules();
   });
